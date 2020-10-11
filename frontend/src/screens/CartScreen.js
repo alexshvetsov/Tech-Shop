@@ -27,10 +27,10 @@ const CartScreen = ({ match, location, history }) => {
     const removeFromCartHandler =(id)=>{
         console.log(id) 
         dispatch(removeFromCart(id)) 
-    } 
+    }  
 
     const checkoutHandler=()=>{ 
-        history.push('login?redirect=shipping')
+        history.push('/login?redirect=shipping')
     }
 
     return (
