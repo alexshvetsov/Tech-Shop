@@ -1,23 +1,36 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { productDetailsReducer, productListReducer } from './reducers/productReducers.js'
+import { productDetailsReducer, productListReducer,productDeleteReducer,productCreateReducer,productUpdateReducer,productReviewCreteReducer } from './reducers/productReducers.js'
 import { cartReducer } from './reducers/cartReducers.js'
-import { orderCreateReducer, orderDetailsReducer,orderListMyReducer,orderPayReducer,  } from './reducers/orderReducers.js'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers.js'
+import { orderCreateReducer, orderDetailsReducer,orderListMyReducer,orderPayReducer,orderListReducer,orderDeliverReducer  } from './reducers/orderReducers.js'
+import { userLoginReducer, userRegisterReducer, userDetailsReducer,
+   userUpdateProfileReducer, userListReducer,userDeleteReducer,userUpdateReducer } from './reducers/userReducers.js'
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
-  cart: cartReducer,
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
+  productUpdate: productUpdateReducer,
+  productReviewCreate:productReviewCreteReducer,
+  cart: cartReducer, 
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  userList:userListReducer,
+  userDelete:userDeleteReducer,
+  userUpdate:userUpdateReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay:orderPayReducer,
-  orderListMy:orderListMyReducer
+  orderDeliver:orderDeliverReducer,
+  orderListMy:orderListMyReducer, 
+  orderList:orderListReducer,   
+
+
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

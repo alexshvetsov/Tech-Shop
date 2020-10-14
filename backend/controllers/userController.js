@@ -6,6 +6,8 @@ import generateToken from '../utils/generateToken.js';
 // public route /login, auth user & get a token
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
+    console.log(email);
+    console.log(password);
     const user = await User.findOne({ email })
     if (user && (await user.matchPassword(password))) {
         res.json({
@@ -94,6 +96,62 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 })
 
+// get all users /api/users  private/ADMIN
+const getUsers = asyncHandler(async (req, res) => {
+    const users = await User.find({});
+    res.json(users)
+})
+
+// get user by id /api/users/:id  private/ADMIN
+const getUserById = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id).select('-password')
+    if (user) {
+        res.json(user)
+    } {
+        res.status(404)
+        throw new Error('user not found')
+    }
+})
 
 
-export { authUser, getUserProfile, registerUser, updateUserProfile }  
+//update user /api/users/:id put private/ADMIN
+const updateUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    console.log(user)
+    console.log(req.params.name)
+    if (user) {
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.isAdmin = req.body.isAdmin
+        const updatedUser = await user.save();
+
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+        })
+
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+
+// delete user /api/users/:id  private/ADMIN
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id)
+    if (user) {
+        user.remove()
+        res.json({ message: 'User removed' })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+
+
+export { authUser, getUserProfile, registerUser, updateUserProfile, 
+    getUsers, deleteUser, getUserById ,updateUser}  
