@@ -5,6 +5,8 @@ import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../components/Rating';
 import { ListProductDetails, createProductReview } from '../actions/productActions';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
+
 import Loader from '../components/Loader';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
@@ -29,24 +31,24 @@ const ProductScreen = ({ history, match }) => {
 
 
     useEffect(() => {
-        if(successProductReview){
+        if (successProductReview) {
             alert('Review Submitted')
             setRating(0)
             setComment('')
-            dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
+            dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
         }
         dispatch(ListProductDetails(match.params.id))
 
-    }, [dispatch, match,successProductReview])
+    }, [dispatch, match, successProductReview])
 
 
-    const addToCartHandler = () => { 
+    const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(createProductReview(match.params.id,{rating, comment}))
+        dispatch(createProductReview(match.params.id, { rating, comment }))
     }
 
     return (
@@ -60,6 +62,8 @@ const ProductScreen = ({ history, match }) => {
                     (<Message variant="danger">{error}</Message>
                     ) : (
                         <>
+                            <Meta title={product.name} />
+
                             <Row>
                                 <Col md={6}>
                                     <Image src={product.image} alt={product.name} fluid />
